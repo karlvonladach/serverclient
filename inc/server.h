@@ -3,6 +3,8 @@
 
 #include <windows.h>
 
-static DWORD WINAPI serverThread(void* args);
+#define MAX_CONNECTIONS 10
+
+DWORD WINAPI serverThread(void* args);
 
 #endif

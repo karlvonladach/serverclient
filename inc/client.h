@@ -3,6 +3,6 @@
 
 #include <windows.h>
 
-static DWORD WINAPI clientThread(void* args);
+DWORD WINAPI clientThread(void* args);
 
 #endif

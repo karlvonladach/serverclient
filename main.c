@@ -22,6 +22,8 @@
 
 #define MAX_NUM_THREADS 2
 
+#define DEFAULT_PORT "27015"
+
 /*****************************************************************************/
 /*                           GLOBAL VARIABLES                                */
 /*****************************************************************************/
@@ -36,10 +38,21 @@ WSADATA wsaData;
 /*                           PUBLIC FUNCTIONS                                */
 /*****************************************************************************/
 
-int main() {
+int main(int argc, char* argv[]) {
   int iResult;
   DWORD threadCnt = 0;
   HANDLE threads[MAX_NUM_THREADS];
+  char *listenPort, *connectPort;
+
+  listenPort = DEFAULT_PORT;
+  if (argc > 1) {
+    listenPort = argv[1];
+  }
+
+  connectPort = DEFAULT_PORT;
+  if (argc > 2) {
+    connectPort = argv[2];
+  }
 
   // Initialize Winsock
   iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
@@ -52,7 +65,7 @@ int main() {
                 NULL,             // default security
                 0,                // default stack size
                 serverThread,     // name of the thread function
-                NULL,             // no thread parameters
+                (void*)listenPort,// pass port number
                 0,                // default startup flags
                 NULL );
 
@@ -60,7 +73,7 @@ int main() {
                 NULL,             // default security
                 0,                // default stack size
                 clientThread,     // name of the thread function
-                NULL,             // no thread parameters
+                (void*)connectPort,// pass port number
                 0,                // default startup flags
                 NULL );
 
