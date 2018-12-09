@@ -8,6 +8,11 @@
 
 extern MSG_Q serverMsgQueue;
 
+enum serverCommands {
+  eServerCommandListen,
+  eServerCommandStop
+};
+
 DWORD WINAPI serverThread(void* args);
 
 #endif

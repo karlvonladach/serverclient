@@ -29,6 +29,7 @@ LDFLAGS = -lWs2_32
 C_SRC +=  \
 src/server.c \
 src/client.c \
+src/cli.c \
 src/msg_q.c \
 main.c 
 

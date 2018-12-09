@@ -13,6 +13,7 @@
 #include <stdio.h>
 #include "server.h"
 #include "client.h"
+#include "cli.h"
 
 #pragma comment(lib, "Ws2_32.lib")
 
@@ -20,7 +21,7 @@
 /*                             DEFINITIONS                                   */
 /*****************************************************************************/
 
-#define MAX_NUM_THREADS 2
+#define MAX_NUM_THREADS 10
 
 #define DEFAULT_PORT "27015"
 
@@ -43,6 +44,8 @@ int main(int argc, char* argv[]) {
   DWORD threadCnt = 0;
   HANDLE threads[MAX_NUM_THREADS];
   char *listenPort, *connectPort;
+
+  argv[0][0] = (char)argc;
 
   listenPort = DEFAULT_PORT;
   if (argc > 1) {
@@ -77,11 +80,22 @@ int main(int argc, char* argv[]) {
                 0,                // default startup flags
                 NULL );
 
+  threads[threadCnt++] = CreateThread( 
+                NULL,             // default security
+                0,                // default stack size
+                cliThread,        // name of the thread function
+                (void*)&argv[0],  // arguments
+                0,                // default startup flags
+                NULL );
+
   WaitForMultipleObjects(
                 threadCnt,        // number of wait objects
                 threads,          // array of wait objects
                 TRUE,             // wait for all
                 INFINITE);        // timeout
+
+  // Clean up Winsock
+  WSACleanup();
 
   return 0;
 }

@@ -6,6 +6,11 @@
 
 extern MSG_Q clientMsgQueue;
 
+enum clientCommands {
+  eClientCommandConnect,
+  eClientCommandStop
+};
+
 DWORD WINAPI clientThread(void* args);
 
 #endif
