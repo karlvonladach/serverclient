@@ -2,8 +2,11 @@
 #define SERVER_H
 
 #include <windows.h>
+#include "msg_q.h"
 
 #define MAX_CONNECTIONS 10
+
+extern MSG_Q serverMsgQueue;
 
 DWORD WINAPI serverThread(void* args);
 
